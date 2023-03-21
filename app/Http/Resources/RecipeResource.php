@@ -16,10 +16,10 @@ class RecipeResource extends JsonResource
     {
         return [
             'id'=> $this->id,
-            'title'=> utf8_encode($this->title),
-            'author'=> utf8_encode($this->author),
-            'ingredients'=> utf8_encode($this->ingredients),
-            'instructions'=>($this->instructions),
+            'title'=> $this->title,
+            'author'=> $this->author,
+            'ingredients'=> $this->ingredients,
+            'instructions'=>$this->instructions,
             
         ];
     }

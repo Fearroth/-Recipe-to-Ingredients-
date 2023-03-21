@@ -45,9 +45,9 @@ public function store(Request $request): JsonResponse
         'ingredients' => $request->get('ingredients'),
         'instructions' => $request->get('instructions'),
     ]);
-
+  
     $recipe->save();
-
+    
     return response()->json(new RecipeResource($recipe), 201);
 }
 
