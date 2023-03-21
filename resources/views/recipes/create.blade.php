@@ -7,6 +7,13 @@
     <title>Dodaj przepis</title>
 </head>
 <body>
+    @if($errors->any())
+        <div class="alert">
+            @foreach($errors->all() as $error)        
+            {{$error}}
+            @endforeach
+        </div>
+    @endif
     <h1>Dodaj przepis</h1>
     <form action="{{ route('recipes.store') }}" method="post">
         @csrf

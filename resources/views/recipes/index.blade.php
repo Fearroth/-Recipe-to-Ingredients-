@@ -8,6 +8,11 @@
 </head>
 
 <body>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <h1>Lista przepisów</h1>
     <a href="{{ route('recipes.create') }}">Dodaj przepis</a>
     <ul>

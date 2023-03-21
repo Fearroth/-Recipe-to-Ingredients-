@@ -48,7 +48,7 @@ public function store(Request $request): JsonResponse
 
     $recipe->save();
 
-    return response()->json(new Resource($recipe), 201);
+    return response()->json(new RecipeResource($recipe), 201);
 }
 
 
