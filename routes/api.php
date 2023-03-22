@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RecipeApiController;
 use App\Http\Resources\RecipeResource;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,6 +23,5 @@ use App\Http\Resources\RecipeResource;
 Route::prefix('/recipes')->group(function () {
     Route::get('/', [RecipeApiController::class, 'index']);
     Route::get('/{id}', [RecipeApiController::class, 'show']);
-    Route::post('/', [RecipeApiController::class, 'store']); 
+    Route::post('/', [RecipeApiController::class, 'store']);
 });
-

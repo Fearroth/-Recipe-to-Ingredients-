@@ -12,8 +12,8 @@ class RecipeController extends Controller
      */
     public function index()
     {
-    $recipes = Recipe::all();
-    return view('recipes.index', compact('recipes'));
+        $recipes = Recipe::all();
+        return view('recipes.index', compact('recipes'));
     }
 
     /**
@@ -21,7 +21,7 @@ class RecipeController extends Controller
      */
     public function create()
     {
-    return view('recipes.create');
+        return view('recipes.create');
     }
 
     /**
@@ -29,23 +29,23 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
-    $request->validate([
-        'title' => 'required|unique:recipes',
-        'author' => 'required|min:4',
-        'ingredients' => 'required',
-        'instructions' => 'required',
-    ]);
+        $request->validate([
+            'title' => 'required|unique:recipes',
+            'author' => 'required|min:4',
+            'ingredients' => 'required',
+            'instructions' => 'required',
+        ]);
 
-    $recipe = new Recipe([
-        'title' => $request->get('title'),
-        'author' => $request->get('author'),
-        'ingredients' => $request->get('ingredients'),
-        'instructions' => $request->get('instructions'),
-    ]);
+        $recipe = new Recipe([
+            'title' => $request->get('title'),
+            'author' => $request->get('author'),
+            'ingredients' => $request->get('ingredients'),
+            'instructions' => $request->get('instructions'),
+        ]);
 
-    $recipe->save();
+        $recipe->save();
 
-    return redirect('/recipes')->with('success', 'Przepis dodany!');
+        return redirect('/recipes')->with('success', 'Przepis dodany!');
     }
 
     /**
@@ -53,7 +53,7 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-    return view('recipes.show', compact('recipe'));
+        return view('recipes.show', compact('recipe'));
     }
 
     /**

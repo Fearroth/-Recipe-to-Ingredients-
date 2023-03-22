@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\RecipeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,4 +29,3 @@ Route::prefix('/recipes')->group(function () {
     Route::put('/{recipe}', [RecipeController::class, 'update'])->name('recipes.update');
     Route::delete('/{recipe}', [RecipeController::class, 'destroy'])->name('recipes.destroy');
 });
-

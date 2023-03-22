@@ -13,7 +13,7 @@ class RecipeApiController extends Controller
     public function index(): JsonResponse
     {
         $recipes = Recipe::all();
-    
+
         return response()->json(RecipeResource::collection($recipes));
     }
 
@@ -30,26 +30,26 @@ class RecipeApiController extends Controller
 
 
 
-public function store(Request $request): JsonResponse
-{
-    $request->validate([
-        'title' => 'required|min:5',
-        'author' => 'required',
-        'ingredients' => 'required',
-        'instructions' => 'required',
-    ]);
+    public function store(Request $request): JsonResponse
+    {
+        $request->validate([
+            'title' => 'required|min:5',
+            'author' => 'required',
+            'ingredients' => 'required',
+            'instructions' => 'required',
+        ]);
 
-    $recipe = new Recipe([
-        'title' => $request->get('title'),
-        'author' => $request->get('author'),
-        'ingredients' => $request->get('ingredients'),
-        'instructions' => $request->get('instructions'),
-    ]);
-  
-    $recipe->save();
-    
-    return response()->json(new RecipeResource($recipe), 201);
-}
+        $recipe = new Recipe([
+            'title' => $request->get('title'),
+            'author' => $request->get('author'),
+            'ingredients' => $request->get('ingredients'),
+            'instructions' => $request->get('instructions'),
+        ]);
+
+        $recipe->save();
+
+        return response()->json(new RecipeResource($recipe), 201);
+    }
 
 
 
