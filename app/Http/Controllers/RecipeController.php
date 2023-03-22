@@ -37,10 +37,10 @@ class RecipeController extends Controller
         ]);
 
         $recipe = new Recipe([
-            'title' => $request->get('title'),
-            'author' => $request->get('author'),
-            'ingredients' => $request->get('ingredients'),
-            'instructions' => $request->get('instructions'),
+            Recipe::TITLE => $request->get('title'),
+            Recipe::AUTHOR => $request->get('author'),
+            Recipe::INGREDIENTS => $request->get('ingredients'),
+            Recipe::INSTRUCTIONS => $request->get('instructions'),
         ]);
 
         $recipe->save();
