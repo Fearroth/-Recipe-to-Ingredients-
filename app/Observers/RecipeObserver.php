@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Recipe;
+
 use Illuminate\Support\Facades\Mail;
 
 class RecipeObserver

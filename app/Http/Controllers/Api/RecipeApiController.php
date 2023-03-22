@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RecipeStoreRequest;
 use App\Http\Resources\RecipeResource;
+
 use App\Models\Recipe;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class RecipeApiController extends Controller
 {
@@ -46,8 +47,8 @@ class RecipeApiController extends Controller
 
         $recipe->save();
 
-    return response()->json(new RecipeResource($recipe), 201);
-}
+        return response()->json(new RecipeResource($recipe), 201);
+    }
 
 
 
