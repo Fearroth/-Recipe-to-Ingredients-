@@ -2,30 +2,28 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\RecipeStoreRequest;
 use App\Http\Resources\RecipeResource;
+use App\Models\Recipe;
 
 class RecipeApiController extends Controller
 {
     public function index(): JsonResponse
     {
-        $recipes = Recipe::all();
+        $query = Recipe::query();
 
-        return response()->json(RecipeResource::collection($recipes));
+        return response()->json([
+            'recipes' => RecipeResource::collection($query->paginate(15)),
+        ]);
     }
 
-    public function show(int $id): JsonResponse
+    public function show(Recipe $model): JsonResponse
     {
-        $recipe = Recipe::find($id);
-
-        if ($recipe) {
-            return response()->json(new RecipeResource($recipe));
-        } else {
-            return response()->json(['error' => 'Recipe not found'], 404);
-        }
+        return response()->json(new RecipeResource($model));
     }
 
 
@@ -48,8 +46,8 @@ class RecipeApiController extends Controller
 
         $recipe->save();
 
-        return response()->json(new RecipeResource($recipe), 201);
-    }
+    return response()->json(new RecipeResource($recipe), 201);
+}
 
 
 
