@@ -21,7 +21,6 @@ use App\Http\Resources\RecipeResource;
 
 Route::prefix('/recipes')->group(function () {
     Route::get('/', [RecipeApiController::class, 'index']);
-    Route::get('/{id}', [RecipeApiController::class, 'show']);
-    Route::post('/', [RecipeApiController::class, 'store']); 
+    Route::get('/{model}', [RecipeApiController::class, 'show']);
+    Route::post('/', [RecipeApiController::class, 'store']);
 });
-
