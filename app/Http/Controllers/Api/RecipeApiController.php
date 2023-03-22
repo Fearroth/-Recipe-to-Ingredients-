@@ -33,7 +33,7 @@ class RecipeApiController extends Controller
 public function store(Request $request): JsonResponse
 {
     $request->validate([
-        'title' => 'required',
+        'title' => 'required|min:5',
         'author' => 'required',
         'ingredients' => 'required',
         'instructions' => 'required',
