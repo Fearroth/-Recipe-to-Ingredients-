@@ -22,7 +22,6 @@ class RecipeApiController extends Controller
             'recipes' => RecipeResource::collection($recipe),
         ]);
     }
-
     public function index(): JsonResponse
     {
         $query = Recipe::query();
@@ -31,18 +30,12 @@ class RecipeApiController extends Controller
             'recipes' => RecipeResource::collection($query->paginate(15)),
         ]);
     }
-
     public function show(Recipe $model): JsonResponse
     {
         return response()->json(new RecipeResource($model));
     }
-
-
-
     public function store(RecipeStoreRequest $request): JsonResponse
     {
-
-
         $recipe = Recipe::create([
             Recipe::TITLE => $request->title,
             Recipe::AUTHOR => $request->author,
@@ -60,9 +53,21 @@ class RecipeApiController extends Controller
             Recipe::INGREDIENTS => $request->ingredients,
             Recipe::INSTRUCTIONS => $request->instructions,
         ]);
-        return response()->json(new RecipeResource($model));
+        return response()->json(new RecipeResource($model), 200);
     }
+    public function restore($id): JsonResponse
+    {
+        $recipe = Recipe::withTrashed()->findOrFail($id)->restore();
 
+
+        return response()->json(['message' => 'Recipe restored successfully'], 200);
+    }
+    public function destroy(Recipe $model): JsonResponse
+    {
+        $model->delete();
+
+        return response()->json(['message' => 'Recipe soft-deleted successfully'], 200);
+    }
 
 }
 

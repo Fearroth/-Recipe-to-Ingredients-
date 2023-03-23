@@ -21,8 +21,10 @@ use App\Http\Controllers\Api\RecipeApiController;
 
 Route::prefix('/recipes')->group(function () {
     Route::get('/', [RecipeApiController::class, 'index']);
+    Route::post('/', [RecipeApiController::class, 'store']);
     Route::get('/all', [RecipeApiController::class, 'all']);
     Route::get('/{model}', [RecipeApiController::class, 'show']);
-    Route::post('/', [RecipeApiController::class, 'store']);
     Route::put('/{model}', [RecipeApiController::class, 'update']);
+    Route::delete('/{model}', [RecipeApiController::class, 'destroy']);
+    Route::put('/{id}/restore', [RecipeApiController::class, 'restore']);
 });
