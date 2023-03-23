@@ -26,5 +26,5 @@ Route::prefix('/recipes')->group(function () {
     Route::get('/{model}', [RecipeApiController::class, 'show']);
     Route::put('/{model}', [RecipeApiController::class, 'update']);
     Route::delete('/{model}', [RecipeApiController::class, 'destroy']);
-    Route::put('/{id}/restore', [RecipeApiController::class, 'restore']);
+    Route::put('/{model}/restore', [RecipeApiController::class, 'restore'])->withTrashed();
 });

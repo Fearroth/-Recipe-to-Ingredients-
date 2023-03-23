@@ -55,9 +55,9 @@ class RecipeApiController extends Controller
         ]);
         return response()->json(new RecipeResource($model), 200);
     }
-    public function restore($id): JsonResponse
+    public function restore(Recipe $model): JsonResponse
     {
-        $recipe = Recipe::withTrashed()->findOrFail($id)->restore();
+        $model->restore();
 
 
         return response()->json(['message' => 'Recipe restored successfully'], 200);
