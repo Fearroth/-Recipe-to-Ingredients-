@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Recipe extends Model
 {
     use HasFactory;
-
+    use SoftDeletes;
 
     protected $table = 'recipes';
     public const TABLE = 'recipes';
@@ -21,11 +21,12 @@ class Recipe extends Model
     public const AUTHOR = 'author';
     public const INGREDIENTS = 'ingredients';
     public const INSTRUCTIONS = 'instructions';
-
+    public const DELETE_AT = 'delete_at';
     protected $guarded = [
         self::ID,
         self::CREATED_AT,
         self::UPDATED_AT,
+        self::DELETE_AT,
     ];
     protected $fillable = [
         self::TITLE,
