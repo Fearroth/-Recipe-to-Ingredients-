@@ -13,14 +13,16 @@ class RecipeObserver
      */
     public function created(Recipe $recipe)
     {
-        $body = 'A new recipe has been added.';
-        $to = 'RecipeApp202303@gmail.com';
-        $subject = 'New recipe added';
+        // $body = 'A new recipe has been added.';
+        // $to = 'RecipeApp202303@gmail.com';
+        // $subject = 'New recipe added';
 
 
-        Mail::raw($body, function ($message) use ($to, $subject) {
-            $message->to($to)->subject($subject);
-        });
+        // Mail::raw($body, function ($message) use ($to, $subject) {
+        //     $message->to($to)->subject($subject);
+        // });
+
+        return response()->json(['message' => 'Recipe created'], 200);
     }
 
     /**

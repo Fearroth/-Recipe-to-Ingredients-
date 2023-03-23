@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RecipeStoreRequest;
+use App\Http\Requests\RecipeUpdateRequest;
 use App\Http\Resources\RecipeResource;
 
 use App\Models\Recipe;
@@ -13,6 +14,15 @@ use Illuminate\Http\Request;
 
 class RecipeApiController extends Controller
 {
+    public function all(): JsonResponse
+    {
+        $recipe = Recipe::all();
+
+        return response()->json([
+            'recipes' => RecipeResource::collection($recipe),
+        ]);
+    }
+
     public function index(): JsonResponse
     {
         $query = Recipe::query();
@@ -29,27 +39,29 @@ class RecipeApiController extends Controller
 
 
 
-    public function store(Request $request): JsonResponse
+    public function store(RecipeStoreRequest $request): JsonResponse
     {
-        $request->validate([
-            'title' => 'required|min:5',
-            'author' => 'required',
-            'ingredients' => 'required',
-            'instructions' => 'required',
-        ]);
 
-        $recipe = new Recipe([
-            Recipe::TITLE => $request->get('title'),
-            Recipe::AUTHOR => $request->get('author'),
-            Recipe::INGREDIENTS => $request->get('ingredients'),
-            Recipe::INSTRUCTIONS => $request->get('instructions'),
-        ]);
 
-        $recipe->save();
+        $recipe = Recipe::create([
+            Recipe::TITLE => $request->title,
+            Recipe::AUTHOR => $request->author,
+            Recipe::INGREDIENTS => $request->ingredients,
+            Recipe::INSTRUCTIONS => $request->instructions,
+        ]);
 
         return response()->json(new RecipeResource($recipe), 201);
     }
-
+    public function update(RecipeUpdateRequest $request, Recipe $model)
+    {
+        $model->update([
+            Recipe::TITLE => $request->title,
+            Recipe::AUTHOR => $request->author,
+            Recipe::INGREDIENTS => $request->ingredients,
+            Recipe::INSTRUCTIONS => $request->instructions,
+        ]);
+        return response()->json(new RecipeResource($model));
+    }
 
 
 }
