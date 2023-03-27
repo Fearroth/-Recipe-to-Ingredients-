@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RecipeApiController;
 use App\Http\Middleware\Auth;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,6 +21,7 @@ use App\Http\Middleware\Auth;
 //     return $request->user();
 // }); // auto utworzone
 
+
 Route::middleware([Auth::class])->group(function () {
     Route::prefix('/recipes')->group(function () {
         Route::get('/', [RecipeApiController::class, 'index']);
@@ -31,3 +33,4 @@ Route::middleware([Auth::class])->group(function () {
         Route::put('/{model}/restore', [RecipeApiController::class, 'restore'])->withTrashed();
     });
 });
+
