@@ -11,13 +11,6 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $table = 'users';
-    public const TABLE = 'users';
-    public function recipe(): HasMany
-    {
-        return $this->hasMany(Recipe::class, 'author', "name");
-    }
-
 
     protected $table = 'users';
     public const TABLE = 'users';
@@ -45,11 +38,10 @@ class User extends Authenticatable
     ];
 
     /*
-    * RELATIONS
-    */
+     * RELATIONS
+     */
     public function recipe(): HasMany
     {
         return $this->hasMany(Recipe::class, 'author', "name");
     }
 }
-
