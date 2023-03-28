@@ -14,12 +14,17 @@ use Illuminate\Http\Request;
 
 class RecipeApiController extends Controller
 {
+    //RESOURCES
+    public const RESOURCE_RECIPES = 'recipes';
+    public const RESOURCE_MESSAGE = 'message';
+    public const RESOURCE_MESSAGE_DELETE = 'Recipe soft-deleted successfully';
+    public const RESOURCE_MESSAGE_RESTORE = 'Recipe restored successfully';
     public function all(): JsonResponse
     {
         $recipe = Recipe::all();
 
         return response()->json([
-            'recipes' => RecipeResource::collection($recipe),
+            self::RESOURCE_RECIPES => RecipeResource::collection($recipe),
         ]);
     }
     public function index(): JsonResponse
@@ -27,12 +32,14 @@ class RecipeApiController extends Controller
         $query = Recipe::query();
 
         return response()->json([
-            'recipes' => RecipeResource::collection($query->paginate(15)),
+            self::RESOURCE_RECIPES => RecipeResource::collection($query->paginate(15)),
         ]);
     }
     public function show(Recipe $model): JsonResponse
     {
-        return response()->json(new RecipeResource($model));
+        return response()->json([
+            self::RESOURCE_RECIPES => new RecipeResource($model)
+        ]);
     }
     public function store(RecipeStoreRequest $request): JsonResponse
     {
@@ -43,7 +50,10 @@ class RecipeApiController extends Controller
             Recipe::INSTRUCTIONS => $request->instructions,
         ]);
 
-        return response()->json(new RecipeResource($recipe), 201);
+        return response()->json([
+            self::RESOURCE_RECIPES => new RecipeResource($recipe),
+            201
+        ]);
     }
     public function update(RecipeUpdateRequest $request, Recipe $model)
     {
@@ -53,57 +63,25 @@ class RecipeApiController extends Controller
             Recipe::INGREDIENTS => $request->ingredients,
             Recipe::INSTRUCTIONS => $request->instructions,
         ]);
-        return response()->json(new RecipeResource($model), 200);
+        return response()->json([
+            self::RESOURCE_RECIPES => new RecipeResource($model),
+            200
+        ]);
     }
     public function restore(Recipe $model): JsonResponse
     {
         $model->restore();
 
 
-        return response()->json(['message' => 'Recipe restored successfully'], 200);
+        return response()->json([self::RESOURCE_MESSAGE => self::RESOURCE_MESSAGE_RESTORE], 200);
     }
     public function destroy(Recipe $model): JsonResponse
     {
         $model->delete();
 
-        return response()->json(['message' => 'Recipe soft-deleted successfully'], 200);
+        return response()->json([self::RESOURCE_MESSAGE => self::RESOURCE_MESSAGE_DELETE], 200);
     }
 
 }
 
 
-// public function store(Request $request): JsonResponse
-// {
-//     $validatedData = $request->validate([
-//         'title' => 'required|string',
-//         'author' => 'required|string',
-//         'ingredients' => 'required|string',
-//         'instructions' => 'required|string',
-//     ]);
-
-//     $recipe = Recipe::create($validatedData);
-
-//     return response()->json(new RecipeResource($recipe), 201);
-// }
-
-// inna proba
-// public function store(Request $request): JsonResponse
-// {
-//     $request->validate([
-//         'title' => 'required',
-//         'author' => 'required',
-//         'ingredients' => 'required',
-//         'instructions' => 'required',
-//     ]);
-
-//     $recipe = new Recipe([
-//         'title' => $request->get('title'),
-//         'author' => $request->get('author'),
-//         'ingredients' => $request->get('ingredients'),
-//         'instructions' => $request->get('instructions'),
-//     ]);
-
-//     $recipe->save();
-
-//     return response()->json(new Resource($recipe), 201);
-// }

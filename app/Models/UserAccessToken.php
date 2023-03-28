@@ -10,8 +10,8 @@ class UserAccessToken extends Model
 {
     use HasFactory;
 
-    protected $table = 'users';
-    public const TABLE = 'users';
+    protected $table = 'userAccessTokens';
+    public const TABLE = 'userAccessTokens';
 
     public const ID = 'id';
     public const CREATED_AT = 'created_at';
@@ -27,8 +27,8 @@ class UserAccessToken extends Model
     ];
 
     /*
-    * RELATIONS
-    */
+     * RELATIONS
+     */
     public function recipe(): BelongsTo
     {
         return $this->belongsTo(User::class, User::ID, self::USER_ID);

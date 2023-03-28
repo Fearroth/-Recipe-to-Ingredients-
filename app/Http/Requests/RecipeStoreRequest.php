@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+use App\Models\Recipe;
+
 class RecipeStoreRequest extends FormRequest
 {
     public $errors;
@@ -38,10 +40,10 @@ class RecipeStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required'],
-            'author' => ['required'],
-            'ingredients' => ['required'],
-            'instructions' => ['required'],
+            Recipe::TITLE => ['required', 'string', 'max:255', Rule::unique(Recipe::TABLE)],
+            Recipe::AUTHOR => ['required', 'string', 'max:255', 'min:10'],
+            Recipe::INGREDIENTS => ['required', 'string', 'max:21845', 'min:10'],
+            Recipe::INSTRUCTIONS => ['required', 'string', 'max:21845', 'min:50'],
         ];
     }
 }
