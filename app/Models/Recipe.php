@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\User;
 
 class Recipe extends Model
 {
@@ -20,7 +21,7 @@ class Recipe extends Model
     public const UPDATED_AT = 'updated_at';
     public const DELETE_AT = 'delete_at';
     public const TITLE = 'title';
-    public const AUTHOR = 'author';
+    public const AUTHOR_ID = 'author_id';
     public const INGREDIENTS = 'ingredients';
     public const INSTRUCTIONS = 'instructions';
 
@@ -32,9 +33,9 @@ class Recipe extends Model
     ];
 
     //Relations
-    public function user(): HasOne
+    public function user(): BelongsTo
     {
-        return $this->hasOne(User::class, User::NAME, self::AUTHOR);
+        return $this->belongsTo(User::class, self::AUTHOR_ID, User::ID);
     }
 
 

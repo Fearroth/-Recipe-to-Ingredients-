@@ -40,7 +40,7 @@ class RecipeUpdateRequest extends FormRequest
     {
         return [
             Recipe::TITLE => ['required', 'string', 'min:10', 'max:255', Rule::unique(Recipe::TABLE)->ignore($this->route('model')->{Recipe::ID})],
-            Recipe::AUTHOR => ['required', 'string', 'min:10', 'max:255'],
+            Recipe::AUTHOR_ID => ['required', 'string', 'min:10', 'max:255'],
             Recipe::INGREDIENTS => ['required', 'string', 'min:10', 'max:21845'],
             Recipe::INSTRUCTIONS => ['required', 'string', 'min:30', 'max:21845'],
         ];

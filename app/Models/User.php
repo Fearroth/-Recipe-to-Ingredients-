@@ -42,6 +42,6 @@ class User extends Authenticatable
      */
     public function recipe(): HasMany
     {
-        return $this->hasMany(Recipe::class, Recipe::AUTHOR, self::NAME);
+        return $this->hasMany(Recipe::class, Recipe::AUTHOR_ID, self::ID);
     }
 }

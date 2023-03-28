@@ -20,12 +20,12 @@ use App\Http\Controllers\RecipeController;
 
 
 //RecipesController simplified version
-Route::prefix('/recipes')->group(function () {
-    Route::get('/', [RecipeController::class, 'index'])->name('recipes.index');
-    Route::get('/create', [RecipeController::class, 'create'])->name('recipes.create');
-    Route::post('/', [RecipeController::class, 'store'])->name('recipes.store');
-    Route::get('/{recipe}', [RecipeController::class, 'show'])->name('recipes.show');
-    Route::get('/{recipe}/edit', [RecipeController::class, 'edit'])->name('recipes.edit');
-    Route::put('/{recipe}', [RecipeController::class, 'update'])->name('recipes.update');
-    Route::delete('/{recipe}', [RecipeController::class, 'destroy'])->name('recipes.destroy');
-});
+// Route::prefix('/recipes')->group(function () {
+//     Route::get('/', [RecipeController::class, 'index'])->name('recipes.index');
+//     Route::get('/create', [RecipeController::class, 'create'])->name('recipes.create');
+//     Route::post('/', [RecipeController::class, 'store'])->name('recipes.store');
+//     Route::get('/{recipe}', [RecipeController::class, 'show'])->name('recipes.show');
+//     Route::get('/{recipe}/edit', [RecipeController::class, 'edit'])->name('recipes.edit');
+//     Route::put('/{recipe}', [RecipeController::class, 'update'])->name('recipes.update');
+//     Route::delete('/{recipe}', [RecipeController::class, 'destroy'])->name('recipes.destroy');
+// });

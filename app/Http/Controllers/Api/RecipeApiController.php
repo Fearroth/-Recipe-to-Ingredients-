@@ -16,11 +16,7 @@ use Illuminate\Http\JsonResponse;
 
 class RecipeApiController extends Controller
 {
-    //RESOURCES
-    public const RESOURCE_RECIPES = 'recipes';
-    public const RESOURCE_MESSAGE = 'message';
-    public const RESOURCE_MESSAGE_DELETE = 'Recipe soft-deleted successfully';
-    public const RESOURCE_MESSAGE_RESTORE = 'Recipe restored successfully';
+
     public function all(): JsonResponse
     {
         $recipe = Recipe::all();
@@ -46,10 +42,10 @@ class RecipeApiController extends Controller
     public function store(RecipeStoreRequest $request): JsonResponse
     {
         $recipe = Recipe::create([
-            Recipe::TITLE => $request->title,
-            Recipe::AUTHOR => $request->author,
-            Recipe::INGREDIENTS => $request->ingredients,
-            Recipe::INSTRUCTIONS => $request->instructions,
+            Recipe::TITLE => $request->Recipe::TITLE,
+            Recipe::AUTHOR_ID => $request->Recipe::AUTHOR_ID,
+            Recipe::INGREDIENTS => $request->Recipe::INGREDIENTS,
+            Recipe::INSTRUCTIONS => $request->Recipe::INSTRUCTIONS,
         ]);
 
         return response()->json([
@@ -60,10 +56,10 @@ class RecipeApiController extends Controller
     public function update(RecipeUpdateRequest $request, Recipe $model)
     {
         $model->update([
-            Recipe::TITLE => $request->title,
-            Recipe::AUTHOR => $request->author,
-            Recipe::INGREDIENTS => $request->ingredients,
-            Recipe::INSTRUCTIONS => $request->instructions,
+            Recipe::TITLE => $request->Recipe::TITLE,
+            Recipe::AUTHOR_ID => $request->Recipe::AUTHOR_ID,
+            Recipe::INGREDIENTS => $request->Recipe::INGREDIENTS,
+            Recipe::INSTRUCTIONS => $request->Recipe::INSTRUCTIONS,
         ]);
         return response()->json([
             RecipeApiControllerTypes::RESOURCE_RECIPES => new RecipeResource($model),
