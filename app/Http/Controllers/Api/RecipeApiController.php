@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+
+//nie dziala
+
+use App\Http\Controllers\Types\RecipeApiControllerTypes;
 use App\Http\Requests\RecipeStoreRequest;
 use App\Http\Requests\RecipeUpdateRequest;
 use App\Http\Resources\RecipeResource;
@@ -10,7 +14,6 @@ use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class RecipeApiController extends Controller
 {
@@ -24,7 +27,7 @@ class RecipeApiController extends Controller
         $recipe = Recipe::all();
 
         return response()->json([
-            self::RESOURCE_RECIPES => RecipeResource::collection($recipe),
+            RecipeApiControllerTypes::RESOURCE_RECIPES => RecipeResource::collection($recipe),
         ]);
     }
     public function index(): JsonResponse
@@ -32,13 +35,13 @@ class RecipeApiController extends Controller
         $query = Recipe::query();
 
         return response()->json([
-            self::RESOURCE_RECIPES => RecipeResource::collection($query->paginate(15)),
+            RecipeApiControllerTypes::RESOURCE_RECIPES => RecipeResource::collection($query->paginate(15)),
         ]);
     }
     public function show(Recipe $model): JsonResponse
     {
         return response()->json([
-            self::RESOURCE_RECIPES => new RecipeResource($model)
+            RecipeApiControllerTypes::RESOURCE_RECIPES => new RecipeResource($model)
         ]);
     }
     public function store(RecipeStoreRequest $request): JsonResponse
@@ -51,7 +54,7 @@ class RecipeApiController extends Controller
         ]);
 
         return response()->json([
-            self::RESOURCE_RECIPES => new RecipeResource($recipe),
+            RecipeApiControllerTypes::RESOURCE_RECIPES => new RecipeResource($recipe),
             201
         ]);
     }
@@ -64,7 +67,7 @@ class RecipeApiController extends Controller
             Recipe::INSTRUCTIONS => $request->instructions,
         ]);
         return response()->json([
-            self::RESOURCE_RECIPES => new RecipeResource($model),
+            RecipeApiControllerTypes::RESOURCE_RECIPES => new RecipeResource($model),
             200
         ]);
     }
@@ -73,15 +76,13 @@ class RecipeApiController extends Controller
         $model->restore();
 
 
-        return response()->json([self::RESOURCE_MESSAGE => self::RESOURCE_MESSAGE_RESTORE], 200);
+        return response()->json([RecipeApiControllerTypes::RESOURCE_MESSAGE => RecipeApiControllerTypes::RESOURCE_MESSAGE_RESTORE], 200);
     }
     public function destroy(Recipe $model): JsonResponse
     {
         $model->delete();
 
-        return response()->json([self::RESOURCE_MESSAGE => self::RESOURCE_MESSAGE_DELETE], 200);
+        return response()->json([RecipeApiControllerTypes::RESOURCE_MESSAGE => RecipeApiControllerTypes::RESOURCE_MESSAGE_DELETE], 200);
     }
 
 }
-
-

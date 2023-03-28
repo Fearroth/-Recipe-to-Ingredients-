@@ -39,10 +39,10 @@ class RecipeUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            Recipe::TITLE => ['required', 'string', 'max:255', Rule::unique(Recipe::TABLE)],
-            Recipe::AUTHOR => ['required', 'string', 'max:255'],
-            Recipe::INGREDIENTS => ['required', 'string', 'max:21845', 'min:4'],
-            Recipe::INSTRUCTIONS => ['required', 'string', 'max:21845', 'min:4'],
+            Recipe::TITLE => ['required', 'string', 'min:10', 'max:255', Rule::unique(Recipe::TABLE)],
+            Recipe::AUTHOR => ['required', 'string', 'min:10', 'max:255'],
+            Recipe::INGREDIENTS => ['required', 'string', 'min:10', 'max:21845'],
+            Recipe::INSTRUCTIONS => ['required', 'string', 'min:30', 'max:21845'],
         ];
     }
 }
