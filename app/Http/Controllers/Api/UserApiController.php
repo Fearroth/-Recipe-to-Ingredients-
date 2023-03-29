@@ -105,7 +105,7 @@ class UserApiController extends Controller
             // ;
             $token = Str::random(60) . $user->{User::EMAIL} . Carbon::now()->timestamp;
             $userAccessToken = UserAccessToken::create([
-                UserAccessToken::USER_ID => $user->id,
+                UserAccessToken::USER_ID => $user->{User::ID},
                 UserAccessToken::TOKEN => Hash::make($token),
                 UserAccessToken::VALID_TO => Carbon::now()->addHours(2),
             ]);
