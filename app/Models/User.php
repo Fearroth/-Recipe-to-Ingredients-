@@ -44,4 +44,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Recipe::class, Recipe::AUTHOR_ID, self::ID);
     }
+    public function useraccesstoken(): HasMany
+    {
+        return $this->hasMany(UserAccessToken::class, UserAccessToken::USER_ID, self::ID);
+    }
 }

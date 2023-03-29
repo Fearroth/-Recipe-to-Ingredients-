@@ -17,14 +17,7 @@ use Illuminate\Http\JsonResponse;
 class RecipeApiController extends Controller
 {
 
-    public function all(): JsonResponse
-    {
-        $recipe = Recipe::all();
 
-        return response()->json([
-            RecipeApiControllerTypes::RESOURCE_RECIPES => RecipeResource::collection($recipe),
-        ]);
-    }
     public function index(): JsonResponse
     {
         $query = Recipe::query();
@@ -37,6 +30,14 @@ class RecipeApiController extends Controller
     {
         return response()->json([
             RecipeApiControllerTypes::RESOURCE_RECIPES => new RecipeResource($model)
+        ]);
+    }
+    public function all(): JsonResponse
+    {
+        $recipe = Recipe::all();
+
+        return response()->json([
+            RecipeApiControllerTypes::RESOURCE_RECIPES => RecipeResource::collection($recipe),
         ]);
     }
     public function store(RecipeStoreRequest $request): JsonResponse

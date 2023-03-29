@@ -29,8 +29,8 @@ class UserAccessToken extends Model
     /*
      * RELATIONS
      */
-    public function recipe(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, User::ID, self::USER_ID);
+        return $this->belongsTo(User::class, self::USER_ID, User::ID);
     }
 }
