@@ -6,8 +6,10 @@ namespace App\Http\Controllers\Api;
 use App\Consts\RecipeApiControllerTypes;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RecipeStoreRequest;
-use App\Http\Requests\RecipeUpdateRequest;
+use App\Http\Requests\{
+    RecipeStoreRequest,
+    RecipeUpdateRequest
+};
 use App\Http\Resources\RecipeResource;
 
 use App\Models\Recipe;
