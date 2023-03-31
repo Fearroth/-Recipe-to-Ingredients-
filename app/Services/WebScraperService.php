@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
+use App\Models\ScrapedRecipe;
+use App\Models\WebScrapedUrl;
+
 use PHPHtmlParser\Dom;
 
 
 use App\Consts\WebScrapingServiceKeys;
-use App\Models\ScrapedRecipe;
-use App\Models\WebScrapedUrl;
+
 
 class WebScraperService
 {
