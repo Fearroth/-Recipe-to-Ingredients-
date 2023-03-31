@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Jobs\WebScrappedJob;
+use App\Jobs\WebScrapedJob;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         //XML to table AS JOB
-        // $schedule->job(new WebScrappedJob())->everyMinute();
+        // $schedule->job(new WebScrapedJob())->everyMinute();
 
         // XML to table AS FUNCTION
         $schedule->call(function () {
@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
             $urls = $webScraper->getUrlsFromSitemap($sitemapUrl);
             $webScraper->saveUrlsToDatabase($urls);
         })->daily();
-        //Site scrapping from KuchnieLidla
+        //Site scraping from KuchnieLidla
         $schedule->command(ScrapeRecipes::class)->everyTenMinutes();
 
 
