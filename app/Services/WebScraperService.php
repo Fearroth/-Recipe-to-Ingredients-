@@ -3,11 +3,11 @@
 namespace App\Services;
 
 use App\Consts\WebScrapingServiceKeys;
-use App\Models\ScrappedRecipe;
-use App\Models\WebScrappedUrl;
+use App\Models\ScrapedRecipe;
+use App\Models\WebScrapedUrl;
 
 use PHPHtmlParser\Dom;
-use stdClass;
+
 
 class WebScraperService
 {
@@ -29,11 +29,11 @@ class WebScraperService
     public function saveUrlsToDatabase($urls)
     {
         foreach ($urls as $url) {
-            WebScrappedUrl::firstOrCreate([
-                WebScrappedUrl::URL => $url,
+            WebScrapedUrl::firstOrCreate([
+                WebScrapedUrl::URL => $url,
             ]);
         }
-        return WebScrapingServiceKeys::MESSAGE_SCRAPPING_SUCCESSFULL;
+        return WebScrapingServiceKeys::MESSAGE_SCRAPING_SUCCESSFULL;
     }
 
 
@@ -58,12 +58,12 @@ class WebScraperService
             $instructions[] = $section->text;
         }
 
-        $urlModel = WebScrappedUrl::where('url', $url)->first();
-        ScrappedRecipe::create([
-            ScrappedRecipe::URL_ID => $urlModel->id,
-            ScrappedRecipe::TITLE => $title,
-            ScrappedRecipe::INGREDIENTS => json_encode($ingredients),
-            ScrappedRecipe::INSTRUCTIONS => json_encode($instructions),
+        $urlModel = WebScrapedUrl::where('url', $url)->first();
+        ScrapedRecipe::create([
+            ScrapedRecipe::URL_ID => $urlModel->id,
+            ScrapedRecipe::TITLE => $title,
+            ScrapedRecipe::INGREDIENTS => json_encode($ingredients),
+            ScrapedRecipe::INSTRUCTIONS => json_encode($instructions),
         ]);
         $urlModel->update(['is_scraped' => true]);
     }

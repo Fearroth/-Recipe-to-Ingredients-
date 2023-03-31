@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('scrapped_recipes', function (Blueprint $table) {
+        Schema::create('scraped_recipes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('url_id');
             $table->string('title');
@@ -22,7 +22,7 @@ return new class extends Migration {
             //if deleted in webscrappedurls delete here
             $table->foreign('url_id')
                 ->references('id')
-                ->on('webscrappedurls')
+                ->on('webscrapedurls')
                 ->onDelete('cascade');
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('scrapped_recipes');
+        Schema::dropIfExists('scraped_recipes');
     }
 };

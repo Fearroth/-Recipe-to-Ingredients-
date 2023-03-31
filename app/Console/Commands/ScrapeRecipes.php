@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\WebScrappedUrl;
+use App\Models\WebScrapedUrl;
 use App\Services\WebScraperService;
 
 use Illuminate\Console\Command;
@@ -20,7 +20,7 @@ class ScrapeRecipes extends Command
     public function handle()
     {
         $webScraperService = new WebScraperService();
-        $urlsToScrape = WebScrappedUrl::where(WebScrappedUrl::IS_SCRAPED, false)->take(2)->get()->pluck('url');
+        $urlsToScrape = WebScrapedUrl::where(WebScrapedUrl::IS_SCRAPED, false)->take(2)->get()->pluck('url');
 
         foreach ($urlsToScrape as $url) {
             $webScraperService->scrapeRecipeAndSave($url);
