@@ -57,7 +57,7 @@ class RecipeApiController extends Controller
             Recipe::AUTHOR_ID => $request->authorId,
             Recipe::INGREDIENTS => $request->ingredients,
             Recipe::INSTRUCTIONS => $request->instructions,
-        ], Response::HTTP_ACCEPTED);
+        ]);
 
         return response()->json([
             ApiResources::RECIPE => new RecipeResource($model),

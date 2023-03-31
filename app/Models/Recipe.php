@@ -20,7 +20,7 @@ class Recipe extends Model
     public const ID = 'id';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
-    public const DELETE_AT = 'delete_at';
+    public const DELETED_AT = 'deleted_at';
     public const TITLE = 'title';
     public const AUTHOR_ID = 'author_id';
     public const INGREDIENTS = 'ingredients';
@@ -30,7 +30,7 @@ class Recipe extends Model
         self::ID,
         self::CREATED_AT,
         self::UPDATED_AT,
-        self::DELETE_AT,
+        self::DELETED_AT,
     ];
 
     //Relations

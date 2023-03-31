@@ -2,19 +2,19 @@
 
 namespace App\Services;
 
+use PHPHtmlParser\Dom;
+
+
 use App\Consts\WebScrapingServiceKeys;
 use App\Models\ScrapedRecipe;
 use App\Models\WebScrapedUrl;
-
-use PHPHtmlParser\Dom;
-
 
 class WebScraperService
 {
 
     //$sitemapUrl = 'https://kuchnialidla.pl/products_sitemap.xml';
     //$urls = getUrlsFromSitemap($sitemapUrl);
-    function getUrlsFromSitemap($sitemapUrl)
+    public function getUrlsFromSitemap($sitemapUrl)
     {
         $sitemapContent = file_get_contents($sitemapUrl);
         $xml = simplexml_load_string($sitemapContent);
@@ -26,6 +26,7 @@ class WebScraperService
 
         return $urls;
     }
+
     public function saveUrlsToDatabase($urls)
     {
         foreach ($urls as $url) {
@@ -36,21 +37,21 @@ class WebScraperService
         return WebScrapingServiceKeys::MESSAGE_SCRAPING_SUCCESSFULL;
     }
 
-
-
-
-    public function scrapeRecipeAndSave($url)
+    public function scrapeRecipeAndSave(WebScrapedUrl $webScrapedUrl)
     {
         $dom = new Dom;
-        $dom->loadFromUrl($url);
+        $dom->loadFromUrl($webScrapedUrl->{WebScrapedUrl::URL});
+
         //get title
         $title = $dom->find('.lead h1', 0)->text;
         $ingredientList = $dom->find('.skladniki li');
+
         //get ingredients
         $ingredients = [];
         foreach ($ingredientList as $ingredient) {
             $ingredients[] = $ingredient->text;
         }
+
         //get instructions
         $instructions = [];
         $instructionSections = $dom->find('#opis p');
@@ -58,15 +59,13 @@ class WebScraperService
             $instructions[] = $section->text;
         }
 
-        $urlModel = WebScrapedUrl::where('url', $url)->first();
         ScrapedRecipe::create([
-            ScrapedRecipe::URL_ID => $urlModel->id,
+            ScrapedRecipe::URL_ID => $webScrapedUrl->id,
             ScrapedRecipe::TITLE => $title,
             ScrapedRecipe::INGREDIENTS => json_encode($ingredients),
             ScrapedRecipe::INSTRUCTIONS => json_encode($instructions),
         ]);
-        $urlModel->update(['is_scraped' => true]);
+
+        $webScrapedUrl->update([WebScrapedUrl::IS_SCRAPED => true]);
     }
-
-
 }
