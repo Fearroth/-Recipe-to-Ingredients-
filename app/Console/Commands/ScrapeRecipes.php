@@ -21,11 +21,12 @@ class ScrapeRecipes extends Command
     public function handle()
     {
         $webScraperService = new WebScraperService();
-        $urlsToScrape = WebScrapedUrl::where(WebScrapedUrl::IS_SCRAPED, false)->take(2)->get()->pluck(WebScrapedUrl::URL);
 
-        foreach ($urlsToScrape as $url) {
-            $webScraperService->scrapeRecipeAndSave($url);
-            echo ScrapeRecipesKeys::PROGRESS_MESSAGE;
+        $webScrapedUrls = WebScrapedUrl::where(WebScrapedUrl::IS_SCRAPED, false)->take(2)->get();
+
+        foreach ($webScrapedUrls as $webScrapedUrl) {
+            $webScraperService->scrapeRecipeAndSave($webScrapedUrl);
+            echo 'procesing';
             sleep(5); // Wait for 5 seconds
         }
     }
