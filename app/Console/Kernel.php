@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
         })->daily();
 
         //Site scraping from KuchnieLidla
-        $schedule->command(ScrapeRecipes::class)->everyTenMinutes();
+        $schedule->command(ScrapeRecipes::class)->everyMinute();
     }
 
     /**
