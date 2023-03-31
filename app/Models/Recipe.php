@@ -34,11 +34,10 @@ class Recipe extends Model
     ];
 
     //Relations
-    public function user(): BelongsTo
+    public const RELATION_AUTHOR = 'author';
+
+    public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, self::AUTHOR_ID, User::ID);
     }
-
-
-
 }
