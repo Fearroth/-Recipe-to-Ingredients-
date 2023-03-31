@@ -9,20 +9,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\User;
 
-class Recipe extends Model
+class ScrappedRecipe extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'recipes';
-    public const TABLE = 'recipes';
-
+    protected $table = 'scrapped_recipes';
+    public const TABLE = 'scrapped_recipes';
     public const ID = 'id';
+    public const URL_ID = 'url_id';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
     public const DELETE_AT = 'delete_at';
     public const TITLE = 'title';
-    public const AUTHOR_ID = 'author_id';
     public const INGREDIENTS = 'ingredients';
     public const INSTRUCTIONS = 'instructions';
 
@@ -32,11 +31,16 @@ class Recipe extends Model
         self::UPDATED_AT,
         self::DELETE_AT,
     ];
-
+    protected $casts = [
+        self::INGREDIENTS => 'array',
+        self::INSTRUCTIONS => 'array',
+    ];
     //Relations
-    public function user(): BelongsTo
+    public function webScrappedUrl(): BelongsTo
     {
-        return $this->belongsTo(User::class, self::AUTHOR_ID, User::ID);
+        return $this->belongsTo(WebScrappedUrl::class, self::URL_ID, WebScrappedUrl::ID);
     }
+
+
 
 }

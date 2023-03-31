@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\hasOne;
 
 class WebScrappedUrl extends Model
 {
@@ -12,7 +13,6 @@ class WebScrappedUrl extends Model
 
     protected $table = 'webScrappedUrls';
     public const TABLE = 'webScrappedUrls';
-
     public const ID = 'id';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
@@ -27,4 +27,9 @@ class WebScrappedUrl extends Model
         self::DELETED_AT,
 
     ];
+    //Relations
+    public function scrappedRecipe(): hasOne
+    {
+        return $this->hasOne(ScrappedRecipe::class, ScrappedRecipe::ID, self::ID, );
+    }
 }

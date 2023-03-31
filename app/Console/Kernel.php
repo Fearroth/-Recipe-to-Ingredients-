@@ -19,21 +19,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        //AS JOB
+        //XML to table AS JOB
         // $schedule->job(new WebScrappedJob())->everyMinute();
 
-        // AS FUNCTION
+        // XML to table AS FUNCTION
         $schedule->call(function () {
             $webScraper = new WebScraperService();
-
             // Download and parse the sitemap
             $sitemapUrl = WebScrapingServiceKeys::SITE_MAP_URL;
             $urls = $webScraper->getUrlsFromSitemap($sitemapUrl);
-
             $webScraper->saveUrlsToDatabase($urls);
-
-
-        })->everyMinute();
+        })->daily();
+        //Site scrapping from KuchnieLidla
+        $schedule->command(ScrapeRecipes::class)->everyTenMinutes();
 
 
     }
