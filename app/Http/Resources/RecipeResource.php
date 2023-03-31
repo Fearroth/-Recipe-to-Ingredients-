@@ -5,9 +5,11 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-use App\Models\Recipe;
+use App\Htpp\Resources\{
+    UserResource,
+};
 
-//use App\Models\User;
+use App\Models\Recipe;
 
 class RecipeResource extends JsonResource
 {
@@ -21,8 +23,9 @@ class RecipeResource extends JsonResource
         return [
             'id' => $this->{Recipe::ID},
             'title' => $this->{Recipe::TITLE},
-            'authorId' => $this->{Recipe::AUTHOR_ID},
-            //USER::NAME => $this->user->name,
+            'author' => $this->{Recipe::AUTHOR_ID} && $this->{Recipe::RELATION_AUTHOR}
+                ? new UserResource($this->{Recipe::RELATION_AUTHOR})
+                : null,
             'ingredients' => $this->{Recipe::INGREDIENTS},
             'instructions' => $this->{Recipe::INSTRUCTIONS},
         ];
