@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use App\Models\UserAccessToken;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserStoreAccessTokenRequest extends FormRequest
 {
@@ -26,8 +28,9 @@ class UserStoreAccessTokenRequest extends FormRequest
         return [
             UserAccessToken::USER_ID => [
                 'required',
-                'integer',
-                'exists:users,id',
+                'uuid',
+                Rule::exists(User::TABLE, User::ID),
+
             ],
         ];
     }

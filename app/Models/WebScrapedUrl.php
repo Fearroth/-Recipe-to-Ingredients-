@@ -11,7 +11,7 @@ class WebScrapedUrl extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'webScrapedUrls';
+    protected $table = 'web_scraped_urls';
     public const TABLE = 'webScrapedUrls';
     public const ID = 'id';
     public const CREATED_AT = 'created_at';
@@ -28,6 +28,7 @@ class WebScrapedUrl extends Model
 
     ];
     //Relations
+    public const RELATION_SCRAPED_RECIPE = 'scrapedRecipe';
     public function scrapedRecipe(): hasOne
     {
         return $this->hasOne(ScrapedRecipe::class, ScrapedRecipe::ID, self::ID, );

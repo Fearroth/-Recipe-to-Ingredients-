@@ -19,10 +19,10 @@ return new class extends Migration {
             $table->timestamps();
             $table->softDeletes();
 
-            //if deleted in webscrappedurls delete here
+            //if deleted in web_scraped_urls delete here
             $table->foreign('url_id')
                 ->references('id')
-                ->on('webscrapedurls')
+                ->on('web_scraped_urls')
                 ->onDelete('cascade');
         });
     }

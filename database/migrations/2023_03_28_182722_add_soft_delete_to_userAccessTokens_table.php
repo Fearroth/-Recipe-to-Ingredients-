@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('userAccessTokens', function (Blueprint $table) {
+        Schema::table('user_Access_Tokens', function (Blueprint $table) {
             $table->softDeletes();
         });
     }
@@ -20,7 +20,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('userAccessTokens', function (Blueprint $table) {
+        Schema::table('user_Access_Tokens', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
     }

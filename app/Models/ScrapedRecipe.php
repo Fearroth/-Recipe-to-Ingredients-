@@ -36,7 +36,9 @@ class ScrapedRecipe extends Model
         self::INSTRUCTIONS => 'array',
     ];
     //Relations
-    public function webScrapedUrl(): BelongsTo
+
+    public const RELATION_WEB_SCRAPPED_URL = 'web_scraped_url';
+    public function web_scraped_url(): BelongsTo
     {
         return $this->belongsTo(WebScrapedUrl::class, self::URL_ID, WebScrapedUrl::ID);
     }

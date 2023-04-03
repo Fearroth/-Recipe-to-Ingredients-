@@ -39,8 +39,14 @@ class UserTokenRequest extends FormRequest
     public function rules()
     {
         return [
-            User::EMAIL => ['required', 'string'],
-            User::PASSWORD => ['required', 'string'],
+            User::EMAIL => [
+                'required',
+                'string'
+            ],
+            User::PASSWORD => [
+                'required',
+                'string'
+            ],
         ];
     }
 }

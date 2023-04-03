@@ -2,8 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Api\RecipeApiController;
-use App\Http\Controllers\Api\UserApiController;
+use App\Http\Controllers\Api\{
+    RecipeApiController,
+    UserApiController,
+    UserAccessTokenApiController
+};
+
 
 use App\Http\Middleware\Auth;
 

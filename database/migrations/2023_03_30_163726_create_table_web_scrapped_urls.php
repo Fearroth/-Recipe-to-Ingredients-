@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('webScrapedUrls', function (Blueprint $table) {
+        Schema::create('web_scraped_urls', function (Blueprint $table) {
             $table->softDeletes();
             $table->id();
             $table->string('url');
@@ -24,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('WebScrapedUrls');
+        Schema::dropIfExists('web_scraped_urls');
     }
 };

@@ -14,7 +14,7 @@ class CreateUserAccessTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('userAccessTokens', function (Blueprint $table) {
+        Schema::create('user_Access_Tokens', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger(UserAccessToken::USER_ID);
@@ -34,6 +34,6 @@ class CreateUserAccessTokensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('userAccessTokens');
+        Schema::dropIfExists('user_Access_Tokens');
     }
 }

@@ -40,12 +40,14 @@ class User extends Authenticatable
     /*
      * RELATIONS
      */
+    public const RELATION_RECIPE = 'recipe';
+    public const RELATION_USER_ACCESS_TOKEN = 'user_access_token';
     public function recipe(): HasMany
     {
         return $this->hasMany(Recipe::class, Recipe::AUTHOR_ID, self::ID);
     }
 
-    public function userAccessToken(): HasMany
+    public function user_access_token(): HasMany
     {
         return $this->hasMany(UserAccessToken::class, UserAccessToken::USER_ID, self::ID);
     }

@@ -39,9 +39,23 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            User::NAME => ['required', 'string', 'max:255'],
-            User::EMAIL => ['required', 'string', 'email', 'max:255', Rule::unique(User::TABLE)->ignore($this->route('model')->{User::ID})],
-            User::PASSWORD => ['required', 'string', 'min:8'],
+            User::NAME => [
+                'required',
+                'string',
+                'max:255'
+            ],
+            User::EMAIL => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique(User::TABLE)->ignore($this->route('model')->{User::ID})
+            ],
+            User::PASSWORD => [
+                'required',
+                'string',
+                'min:8'
+            ],
         ];
     }
 }
