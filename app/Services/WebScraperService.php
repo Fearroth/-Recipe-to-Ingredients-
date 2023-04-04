@@ -46,10 +46,11 @@ class WebScraperService
 
         //get title
         $title = $dom->find('.lead h1', 0)->text;
-        $ingredientList = $dom->find('.skladniki li');
+
 
         //get ingredients
         $ingredients = [];
+        $ingredientList = $dom->find('.skladniki li');
         foreach ($ingredientList as $ingredient) {
             $ingredients[] = $ingredient->text;
         }

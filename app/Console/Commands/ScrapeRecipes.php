@@ -22,7 +22,7 @@ class ScrapeRecipes extends Command
     {
         $webScraperService = new WebScraperService();
 
-        $webScrapedUrls = WebScrapedUrl::where(WebScrapedUrl::IS_SCRAPED, false)->take(2)->get();
+        $webScrapedUrls = WebScrapedUrl::where(WebScrapedUrl::IS_SCRAPED, false)->take(10)->get();
 
         foreach ($webScrapedUrls as $webScrapedUrl) {
             $webScraperService->scrapeRecipeAndSave($webScrapedUrl);

@@ -24,6 +24,8 @@ class ScrapedRecipe extends Model
     public const TITLE = 'title';
     public const INGREDIENTS = 'ingredients';
     public const INSTRUCTIONS = 'instructions';
+    public const IS_PARSED = 'is_parsed';
+
 
     protected $guarded = [
         self::ID,
