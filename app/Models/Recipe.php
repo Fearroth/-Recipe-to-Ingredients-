@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\User;
@@ -35,9 +36,16 @@ class Recipe extends Model
 
     //Relations
     public const RELATION_AUTHOR = 'author';
-
+    public const RELATION_PRODUCTS = 'products';
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, self::AUTHOR_ID, User::ID);
+    }
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class)
+            ->withTimestamps()
+            ->withPivot(['quantity', 'unit'])
+            ->as('products');
     }
 }
