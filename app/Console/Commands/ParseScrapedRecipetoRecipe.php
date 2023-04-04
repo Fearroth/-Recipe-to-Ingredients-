@@ -21,7 +21,7 @@ class parseScrapedRecipeToRecipe extends Command
     {
         $webScraperService = new WebScraperService();
 
-        $scrapedRecipes = ScrapedRecipe::where(ScrapedRecipe::IS_PARSED, false)->take(1)->get();
+        $scrapedRecipes = ScrapedRecipe::where(ScrapedRecipe::IS_PARSED, true)->take(1)->get();
 
         foreach ($scrapedRecipes as $scrapedRecipe) {
             $webScraperService->parseScrapedRecipeToRecipe($scrapedRecipe);

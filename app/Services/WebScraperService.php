@@ -71,7 +71,7 @@ class WebScraperService
             ScrapedRecipe::URL_ID => $webScrapedUrl->id,
             ScrapedRecipe::TITLE => $title,
             ScrapedRecipe::INGREDIENTS => json_encode($ingredients),
-            ScrapedRecipe::INSTRUCTIONS => json_encode($instructions),
+            ScrapedRecipe::INSTRUCTIONS => json_encode(($instructions)),
         ]);
 
         $webScrapedUrl->update([WebScrapedUrl::IS_SCRAPED => true]);
@@ -86,33 +86,40 @@ class WebScraperService
                 User::PASSWORD => Hash::make('q1w2e3r4t5')
             ]);
 
-        $instructions = json_decode($scrapedRecipe->instructions);
-        $ingredients = json_decode($scrapedRecipe->ingredients);
+        $instructions = json_decode(html_entity_decode($scrapedRecipe->instructions));
+        $ingredients = json_decode(html_entity_decode($scrapedRecipe->ingredients));
 
         $recipe = Recipe::firstOrCreate(
-            [Recipe::TITLE => $scrapedRecipe->title],
+            [Recipe::TITLE => html_entity_decode($scrapedRecipe->title)],
             [
                 RECIPE::AUTHOR_ID => $user->id,
                 RECIPE::INSTRUCTIONS => json_encode($instructions),
             ]
         );
-        foreach ($ingredients as $ingredient) {
-            // Parse the ingredient string into name, quantity, and unit
-            preg_match('/(.*):\s*([\d.,]+)\s*(.*)/', $ingredient, $matches);
-            print_r([$ingredient, $matches]);
-            $name = $matches[1];
-            $quantity = $matches[2];
-            $unit = $matches[3];
+        if ($recipe->wasRecentlyCreated) {
+            foreach ($ingredients as $ingredient) {
+                // Parse the ingredient string
+                //'/(.*\S)\s*-\s*([\d.,]+)?\s*([\p{L}\s]*)/u'    
+                //preg_match('/(.*):\s*([\d.,]+)?\s*(.*)/u',
+                // preg_match('/(.*):\s*([\d.,]+)?\s*([^\d\s]*.*)/u'
 
-            // Find or create the product
-            $product = Product::firstOrCreate([Product::NAME => $name]);
+                preg_match('/(.*?)(?:(?:\s*\-\s*)|(?:\s*\:\s*))\s*([\d.,]+)?\s*([\p{L}\s]*)/u', $ingredient, $matches);
 
-            // Attach the product to the recipe with quantity and unit
-            $recipe->products()->attach($product->id, [ProductRecipe::QUANTITY => $quantity, ProductRecipe::UNIT => $unit]);
+                print_r([$ingredient, $matches]);
+
+                $name = $matches[1];
+                $quantity = $matches[2];
+                $unit = $matches[3] ?? null;
+
+                // Find or create the product
+                $product = Product::firstOrCreate([Product::NAME => $name]);
+
+
+                $recipe->products()->attach($product->id, [ProductRecipe::QUANTITY => $quantity, ProductRecipe::UNIT => $unit]);
+            }
         }
 
 
-        // Update the is_parsed flag for the scraped recipe
         $scrapedRecipe->update(['is_parsed' => true]);
     }
 
