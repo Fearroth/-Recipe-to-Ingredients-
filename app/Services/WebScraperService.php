@@ -2,9 +2,14 @@
 
 namespace App\Services;
 
+use App\Models\Product;
+use App\Models\ProductRecipe;
+use App\Models\Recipe;
 use App\Models\ScrapedRecipe;
+use App\Models\User;
 use App\Models\WebScrapedUrl;
 
+use Illuminate\Support\Facades\Hash;
 use PHPHtmlParser\Dom;
 
 
@@ -71,4 +76,45 @@ class WebScraperService
 
         $webScrapedUrl->update([WebScrapedUrl::IS_SCRAPED => true]);
     }
+
+    function parseScrapedRecipeToRecipe(ScrapedRecipe $scrapedRecipe)
+    {
+        $user = User::firstOrCreate([
+            User::NAME => 'kuchnialidla',
+            User::EMAIL => 'kuchnialidla@example.com',
+        ], [
+                User::PASSWORD => Hash::make('q1w2e3r4t5')
+            ]);
+
+        $instructions = json_decode($scrapedRecipe->instructions);
+        $ingredients = json_decode($scrapedRecipe->ingredients);
+
+        $recipe = Recipe::firstOrCreate(
+            [Recipe::TITLE => $scrapedRecipe->title],
+            [
+                RECIPE::AUTHOR_ID => $user->id,
+                RECIPE::INSTRUCTIONS => json_encode($instructions),
+            ]
+        );
+        foreach ($ingredients as $ingredient) {
+            // Parse the ingredient string into name, quantity, and unit
+            preg_match('/(.*):\s*([\d.,]+)\s*(.*)/', $ingredient, $matches);
+            print_r([$ingredient, $matches]);
+            $name = $matches[1];
+            $quantity = $matches[2];
+            $unit = $matches[3];
+
+            // Find or create the product
+            $product = Product::firstOrCreate([Product::NAME => $name]);
+
+            // Attach the product to the recipe with quantity and unit
+            $recipe->products()->attach($product->id, [ProductRecipe::QUANTITY => $quantity, ProductRecipe::UNIT => $unit]);
+        }
+
+
+        // Update the is_parsed flag for the scraped recipe
+        $scrapedRecipe->update(['is_parsed' => true]);
+    }
+
+
 }

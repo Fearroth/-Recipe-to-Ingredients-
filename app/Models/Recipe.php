@@ -24,7 +24,6 @@ class Recipe extends Model
     public const DELETED_AT = 'deleted_at';
     public const TITLE = 'title';
     public const AUTHOR_ID = 'author_id';
-    public const INGREDIENTS = 'ingredients';
     public const INSTRUCTIONS = 'instructions';
 
     protected $guarded = [
@@ -33,7 +32,9 @@ class Recipe extends Model
         self::UPDATED_AT,
         self::DELETED_AT,
     ];
-
+    protected $casts = [
+        self::INSTRUCTIONS => 'array',
+    ];
     //Relations
     public const RELATION_AUTHOR = 'author';
     public const RELATION_PRODUCTS = 'products';
