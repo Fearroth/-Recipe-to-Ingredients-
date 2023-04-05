@@ -55,12 +55,6 @@ class RecipeUpdateRequest extends FormRequest
                 'uuid',
                 Rule::exists(User::TABLE, User::ID),
             ],
-            Recipe::INGREDIENTS => [
-                'required',
-                'string',
-                'min:10',
-                'max:21845'
-            ],
             Recipe::INSTRUCTIONS => [
                 'required',
                 'string',

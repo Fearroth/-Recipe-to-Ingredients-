@@ -79,13 +79,14 @@ class WebScraperService
 
     function parseScrapedRecipeToRecipe(ScrapedRecipe $scrapedRecipe)
     {
+        //this as f.argument
         $user = User::firstOrCreate([
             User::NAME => 'kuchnialidla',
             User::EMAIL => 'kuchnialidla@example.com',
         ], [
                 User::PASSWORD => Hash::make('q1w2e3r4t5')
             ]);
-
+        ///======
         $instructions = json_decode(html_entity_decode($scrapedRecipe->instructions));
         $ingredients = json_decode(html_entity_decode($scrapedRecipe->ingredients));
 

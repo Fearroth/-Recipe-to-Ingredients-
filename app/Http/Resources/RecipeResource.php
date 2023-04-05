@@ -25,7 +25,6 @@ class RecipeResource extends JsonResource
             'author' => $this->{Recipe::AUTHOR_ID} && $this->{Recipe::RELATION_AUTHOR}
             ? new UserResource($this->{Recipe::RELATION_AUTHOR})
             : null,
-            'ingredients' => $this->{Recipe::INGREDIENTS},
             'instructions' => $this->{Recipe::INSTRUCTIONS},
         ];
     }

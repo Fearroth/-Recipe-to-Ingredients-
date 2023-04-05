@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 
+use App\Models\Product;
+use App\Models\ProductRecipe;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -54,17 +56,39 @@ class RecipeStoreRequest extends FormRequest
                 'uuid',
                 Rule::exists(User::TABLE, User::ID),
             ],
-            Recipe::INGREDIENTS => [
-                'required',
-                'string',
-                'min:10',
-                'max:21845'
-            ],
             Recipe::INSTRUCTIONS => [
+                'required',
+                'array',
+                'min:1',
+            ],
+            Recipe::INSTRUCTIONS . '.*' => [
                 'required',
                 'string',
                 'min:30',
                 'max:21845'
+            ],
+
+            Recipe::RELATION_PRODUCTS => [
+                'required',
+                'array',
+                'min:1',
+            ],
+            Recipe::RELATION_PRODUCTS . '.*' . Product::ID => [
+                'required', //to powinno byc name a nie id wtedy sprawdzamy i dajemy tu nr z product
+            ],
+                // Rule::exists(Product::TABLE, Product::ID), //czy to moze byc? skoro dopiero tworze
+
+            Recipe::RELATION_PRODUCTS . '.*' . ProductRecipe::QUANTITY => [
+                'nullable' .
+                'numeric',
+                'min:1'
+            ],
+            Recipe::RELATION_PRODUCTS . '.*' . ProductRecipe::UNIT =>
+            [
+                'required',
+                'string',
+                'min:1',
+                'max:255'
             ],
         ];
     }
