@@ -44,7 +44,7 @@ class RecipeApiController extends Controller
     {
         $recipe = Recipe::create([
             Recipe::TITLE => $request->title,
-            Recipe::AUTHOR_ID => $request->authorId,
+            Recipe::AUTHOR_ID => $request->author_id,
             Recipe::INSTRUCTIONS => $request->instructions,
         ]);
         foreach ($request->products as $product) {

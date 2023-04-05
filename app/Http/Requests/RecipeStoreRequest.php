@@ -53,46 +53,47 @@ class RecipeStoreRequest extends FormRequest
             ],
             Recipe::AUTHOR_ID => [
                 'required',
-                'uuid',
+                // 'uuid', ??!! name changed but its still string...
                 Rule::exists(User::TABLE, User::ID),
             ],
-            // Recipe::INSTRUCTIONS => [
-            //     'required',
-            //     'array',
-            //     'min:1',
-            // ],
-            // Recipe::INSTRUCTIONS . '.*' => [
-            //     'required',
-            //     'string',
-            //     'min:30',
-            //     'max:21845'
-            // ],
+            Recipe::INSTRUCTIONS => [
+                'required',
+                'array',
+                'min:1',
+            ],
+                //work to this point
+            Recipe::INSTRUCTIONS . '.*' => [
+                'required',
+                'string',
+                'min:10',
+                'max:21845'
+            ],
 
-            // Recipe::RELATION_PRODUCTS => [
-            //     'required',
-            //     'array',
-            //     'min:1',
-            // ],
-            // Recipe::RELATION_PRODUCTS . '.*' . Product::NAME => [
-            //     'required',
-            //     'string',
-            //     'max:255',
-            //     //to powinno byc name a nie id wtedy sprawdzamy i dajemy tu nr z product
-            // ],
-            //     // Rule::exists(Product::TABLE, Product::ID), //czy to moze byc? skoro dopiero tworze
+            Recipe::RELATION_PRODUCTS => [
+                'required',
+                'array',
+                'min:1',
+            ],
+            Recipe::RELATION_PRODUCTS . '.*' . Product::NAME => [
+                'required',
+                'string',
+                'max:255',
 
-            // Recipe::RELATION_PRODUCTS . '.*' . ProductRecipe::QUANTITY => [
-            //     'required',
-            //     'numeric',
-            //     'min:1'
-            // ],
-            // Recipe::RELATION_PRODUCTS . '.*' . ProductRecipe::UNIT =>
-            // [
-            //     'required',
-            //     'string',
-            //     'min:1',
-            //     'max:255'
-            // ],
+            ],
+                //     // Rule::exists(Product::TABLE, Product::ID), //czy to moze byc? skoro dopiero tworze
+
+            Recipe::RELATION_PRODUCTS . '.*' . ProductRecipe::QUANTITY => [
+                'required',
+                'numeric',
+                'min:1'
+            ],
+            Recipe::RELATION_PRODUCTS . '.*' . ProductRecipe::UNIT =>
+            [
+                'required',
+                'string',
+                'min:1',
+                'max:255'
+            ],
         ];
     }
 }
