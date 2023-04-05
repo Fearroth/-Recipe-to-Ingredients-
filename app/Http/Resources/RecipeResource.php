@@ -26,6 +26,7 @@ class RecipeResource extends JsonResource
             ? new UserResource($this->{Recipe::RELATION_AUTHOR})
             : null,
             'instructions' => $this->{Recipe::INSTRUCTIONS},
+            'products' => ProductResource::collection($this->whenLoaded(RECIPE::RELATION_PRODUCTS)),
         ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Product;
+use App\Models\ProductRecipe;
 use Illuminate\Http\{
     Request,
     Response,
@@ -23,7 +25,7 @@ class RecipeApiController extends Controller
 {
     public function index(): JsonResponse
     {
-        $query = Recipe::query();
+        $query = Recipe::query()->with('products');
 
         return response()->json([
             ApiResources::RECIPES => RecipeResource::collection($query->paginate(15)),
@@ -32,6 +34,7 @@ class RecipeApiController extends Controller
 
     public function show(Recipe $model): JsonResponse
     {
+        $model->load(RECIPE::RELATION_PRODUCTS);
         return response()->json([
             ApiResources::RECIPE => new RecipeResource($model)
         ], Response::HTTP_OK);
@@ -42,10 +45,18 @@ class RecipeApiController extends Controller
         $recipe = Recipe::create([
             Recipe::TITLE => $request->title,
             Recipe::AUTHOR_ID => $request->authorId,
-            Recipe::INGREDIENTS => $request->ingredients,
             Recipe::INSTRUCTIONS => $request->instructions,
         ]);
+        foreach ($request->products as $product) {
+            $name = $product['name'];
+            $quantity = $product['quantity'];
+            $unit = $product['unit'];
 
+            $product = Product::firstOrCreate([Product::NAME => $name]);
+
+            $recipe->products()->attach($product->id, [ProductRecipe::QUANTITY => $quantity, ProductRecipe::UNIT => $unit]);
+        }
+        $recipe->load(Recipe::RELATION_PRODUCTS);
         return response()->json([
             ApiResources::RECIPE => new RecipeResource($recipe),
         ], Response::HTTP_CREATED);
@@ -55,7 +66,6 @@ class RecipeApiController extends Controller
         $model->update([
             Recipe::TITLE => $request->title,
             Recipe::AUTHOR_ID => $request->authorId,
-            Recipe::INGREDIENTS => $request->ingredients,
             Recipe::INSTRUCTIONS => $request->instructions,
         ]);
 
