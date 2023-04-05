@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
+use App\Models\ProductRecipe;
 use App\Models\User;
 use App\Models\Recipe;
 
@@ -52,14 +54,46 @@ class RecipeUpdateRequest extends FormRequest
             ],
             Recipe::AUTHOR_ID => [
                 'required',
-                'uuid',
+                //'uuid',
                 Rule::exists(User::TABLE, User::ID),
             ],
             Recipe::INSTRUCTIONS => [
                 'required',
+                'array',
+                'min:1',
+            ],
+
+            Recipe::INSTRUCTIONS . '.*' => [
+                'required',
                 'string',
-                'min:30',
+                'min:10',
                 'max:21845'
+            ],
+
+            Recipe::RELATION_PRODUCTS => [
+                'required',
+                'array',
+                'min:1',
+            ],
+            Recipe::RELATION_PRODUCTS . '.*' . Product::NAME => [
+                'required',
+                'string',
+                'max:255',
+
+            ],
+                //     // Rule::exists(Product::TABLE, Product::ID), //czy to moze byc? skoro dopiero tworze
+
+            Recipe::RELATION_PRODUCTS . '.*' . ProductRecipe::QUANTITY => [
+                'required',
+                'numeric',
+                'min:1'
+            ],
+            Recipe::RELATION_PRODUCTS . '.*' . ProductRecipe::UNIT =>
+            [
+                'required',
+                'string',
+                'min:1',
+                'max:255'
             ],
         ];
     }

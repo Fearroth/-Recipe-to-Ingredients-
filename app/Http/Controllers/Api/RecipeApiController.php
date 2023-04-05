@@ -65,10 +65,20 @@ class RecipeApiController extends Controller
     {
         $model->update([
             Recipe::TITLE => $request->title,
-            Recipe::AUTHOR_ID => $request->authorId,
+            Recipe::AUTHOR_ID => $request->author_id,
             Recipe::INSTRUCTIONS => $request->instructions,
         ]);
+        $model->products()->detach();
+        foreach ($request->products as $product) {
+            $name = $product['name'];
+            $quantity = $product['quantity'];
+            $unit = $product['unit'];
 
+            $product = Product::firstOrCreate([Product::NAME => $name]);
+
+            $model->products()->attach($product->id, [ProductRecipe::QUANTITY => $quantity, ProductRecipe::UNIT => $unit]);
+        }
+        $model->load(Recipe::RELATION_PRODUCTS);
         return response()->json([
             ApiResources::RECIPE => new RecipeResource($model),
         ], Response::HTTP_ACCEPTED);
