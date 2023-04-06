@@ -115,7 +115,6 @@ class WebScraperService
                 // Find or create the product
                 $product = Product::firstOrCreate([Product::NAME => $name]);
 
-
                 $recipe->products()->attach($product->id, [ProductRecipe::QUANTITY => $quantity, ProductRecipe::UNIT => $unit]);
             }
         }

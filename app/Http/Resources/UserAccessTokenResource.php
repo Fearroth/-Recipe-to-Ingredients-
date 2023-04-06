@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Models\UserAccessToken;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-use App\Models\UserAccessToken;
+
 
 class UserAccessTokenResource extends JsonResource
 {

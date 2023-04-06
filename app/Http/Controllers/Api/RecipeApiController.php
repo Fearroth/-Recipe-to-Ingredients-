@@ -2,14 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Product;
-use App\Models\ProductRecipe;
-use Illuminate\Http\{
-    Request,
-    Response,
-    JsonResponse,
-};
-
 use App\Consts\ApiResources;
 
 use App\Http\Controllers\Controller;
@@ -19,7 +11,17 @@ use App\Http\Requests\{
 };
 use App\Http\Resources\RecipeResource;
 
+use App\Models\Product;
+use App\Models\ProductRecipe;
 use App\Models\Recipe;
+
+use Illuminate\Http\{
+    Request,
+    Response,
+    JsonResponse,
+};
+
+
 
 class RecipeApiController extends Controller
 {
@@ -47,6 +49,7 @@ class RecipeApiController extends Controller
             Recipe::AUTHOR_ID => $request->author_id,
             Recipe::INSTRUCTIONS => $request->instructions,
         ]);
+        
         foreach ($request->products as $product) {
             $name = $product['name'];
             $quantity = $product['quantity'];
@@ -56,7 +59,9 @@ class RecipeApiController extends Controller
 
             $recipe->products()->attach($product->id, [ProductRecipe::QUANTITY => $quantity, ProductRecipe::UNIT => $unit]);
         }
+
         $recipe->load(Recipe::RELATION_PRODUCTS);
+
         return response()->json([
             ApiResources::RECIPE => new RecipeResource($recipe),
         ], Response::HTTP_CREATED);
@@ -68,17 +73,21 @@ class RecipeApiController extends Controller
             Recipe::AUTHOR_ID => $request->author_id,
             Recipe::INSTRUCTIONS => $request->instructions,
         ]);
+
         $model->products()->detach();
+
         foreach ($request->products as $product) {
-            $name = $product['name'];
-            $quantity = $product['quantity'];
-            $unit = $product['unit'];
+            $name = $product[Product::NAME];
+            $quantity = $product[ProductRecipe::QUANTITY];
+            $unit = $product[ProductRecipe::UNIT];
 
             $product = Product::firstOrCreate([Product::NAME => $name]);
 
             $model->products()->attach($product->id, [ProductRecipe::QUANTITY => $quantity, ProductRecipe::UNIT => $unit]);
         }
+
         $model->load(Recipe::RELATION_PRODUCTS);
+
         return response()->json([
             ApiResources::RECIPE => new RecipeResource($model),
         ], Response::HTTP_ACCEPTED);

@@ -1,8 +1,9 @@
 <?php
 namespace App\Jobs;
 
-use App\Services\WebScraperService;
 use App\Consts\WebScrapingServiceKeys;
+use App\Services\WebScraperService;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
-use App\Models\ProductRecipe;
-use App\Models\User;
-use App\Models\Recipe;
+use App\Models\{
+    Product,
+    ProductRecipe,
+    Recipe,
+    User
+};
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

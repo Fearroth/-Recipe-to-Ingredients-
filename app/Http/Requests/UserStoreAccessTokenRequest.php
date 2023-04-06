@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
-use App\Models\UserAccessToken;
+use App\Models\{
+    User,
+    UserAccessToken
+ };
+
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
