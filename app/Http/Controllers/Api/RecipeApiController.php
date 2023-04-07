@@ -2,108 +2,74 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\{
+    Request,
+    Response,
+    JsonResponse,
+};
+
+use App\Consts\ApiResources;
+
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RecipeStoreRequest;
-use App\Http\Requests\RecipeUpdateRequest;
+use App\Http\Requests\{
+    RecipeStoreRequest,
+    RecipeUpdateRequest
+};
 use App\Http\Resources\RecipeResource;
 
 use App\Models\Recipe;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-
 class RecipeApiController extends Controller
 {
-    public function all(): JsonResponse
-    {
-        $recipe = Recipe::all();
-
-        return response()->json([
-            'recipes' => RecipeResource::collection($recipe),
-        ]);
-    }
     public function index(): JsonResponse
     {
         $query = Recipe::query();
 
         return response()->json([
-            'recipes' => RecipeResource::collection($query->paginate(15)),
-        ]);
+            ApiResources::RECIPES => RecipeResource::collection($query->paginate(15)),
+        ], Response::HTTP_OK);
     }
+
     public function show(Recipe $model): JsonResponse
     {
-        return response()->json(new RecipeResource($model));
+        return response()->json([
+            ApiResources::RECIPE => new RecipeResource($model)
+        ], Response::HTTP_OK);
     }
+
     public function store(RecipeStoreRequest $request): JsonResponse
     {
         $recipe = Recipe::create([
             Recipe::TITLE => $request->title,
-            Recipe::AUTHOR => $request->author,
+            Recipe::AUTHOR_ID => $request->authorId,
             Recipe::INGREDIENTS => $request->ingredients,
             Recipe::INSTRUCTIONS => $request->instructions,
         ]);
 
-        return response()->json(new RecipeResource($recipe), 201);
+        return response()->json([
+            ApiResources::RECIPE => new RecipeResource($recipe),
+        ], Response::HTTP_CREATED);
     }
     public function update(RecipeUpdateRequest $request, Recipe $model)
     {
         $model->update([
             Recipe::TITLE => $request->title,
-            Recipe::AUTHOR => $request->author,
+            Recipe::AUTHOR_ID => $request->authorId,
             Recipe::INGREDIENTS => $request->ingredients,
             Recipe::INSTRUCTIONS => $request->instructions,
-        ]);
-        return response()->json(new RecipeResource($model), 200);
-    }
-    public function restore(Recipe $model): JsonResponse
-    {
-        $model->restore();
+        ], Response::HTTP_ACCEPTED);
 
-
-        return response()->json(['message' => 'Recipe restored successfully'], 200);
+        return response()->json([
+            ApiResources::RECIPE => new RecipeResource($model),
+        ], Response::HTTP_ACCEPTED);
     }
+
     public function destroy(Recipe $model): JsonResponse
     {
         $model->delete();
 
-        return response()->json(['message' => 'Recipe soft-deleted successfully'], 200);
+        return response()->json([
+            ApiResources::RECIPE => null
+        ], Response::HTTP_ACCEPTED);
     }
-
 }
-
-
-// public function store(Request $request): JsonResponse
-// {
-//     $validatedData = $request->validate([
-//         'title' => 'required|string',
-//         'author' => 'required|string',
-//         'ingredients' => 'required|string',
-//         'instructions' => 'required|string',
-//     ]);
-
-//     $recipe = Recipe::create($validatedData);
-
-//     return response()->json(new RecipeResource($recipe), 201);
-// }
-
-// inna proba
-// public function store(Request $request): JsonResponse
-// {
-//     $request->validate([
-//         'title' => 'required',
-//         'author' => 'required',
-//         'ingredients' => 'required',
-//         'instructions' => 'required',
-//     ]);
-
-//     $recipe = new Recipe([
-//         'title' => $request->get('title'),
-//         'author' => $request->get('author'),
-//         'ingredients' => $request->get('ingredients'),
-//         'instructions' => $request->get('instructions'),
-//     ]);
-
-//     $recipe->save();
-
-//     return response()->json(new Resource($recipe), 201);
-// }

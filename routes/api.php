@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\RecipeApiController;
+use App\Http\Controllers\Api\UserApiController;
+
 use App\Http\Middleware\Auth;
 
 
@@ -21,16 +23,26 @@ use App\Http\Middleware\Auth;
 //     return $request->user();
 // }); // auto utworzone
 
-
+//Routes for Recipe model
 Route::middleware([Auth::class])->group(function () {
     Route::prefix('/recipes')->group(function () {
         Route::get('/', [RecipeApiController::class, 'index']);
         Route::post('/', [RecipeApiController::class, 'store']);
-        Route::get('/all', [RecipeApiController::class, 'all']);
         Route::get('/{model}', [RecipeApiController::class, 'show']);
         Route::put('/{model}', [RecipeApiController::class, 'update']);
         Route::delete('/{model}', [RecipeApiController::class, 'destroy']);
-        Route::put('/{model}/restore', [RecipeApiController::class, 'restore'])->withTrashed();
     });
 });
 
+// Routes for User model
+Route::prefix('/users')->group(function () {
+    Route::get('/', [UserApiController::class, 'index']);
+    Route::post('/', [UserApiController::class, 'store']);
+    Route::get('/{model}', [UserApiController::class, 'show']);
+    Route::put('/{model}', [UserApiController::class, 'update']);
+    Route::delete('/{model}', [UserApiController::class, 'destroy']);
+});
+
+Route::prefix('/user-access-tokens')->group(function () {
+    Route::post('/', [UserAccessTokenApiController::class, 'login']);
+});

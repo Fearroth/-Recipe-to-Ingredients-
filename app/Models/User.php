@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\hasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'users';
     public const TABLE = 'users';
@@ -42,6 +42,10 @@ class User extends Authenticatable
      */
     public function recipe(): HasMany
     {
-        return $this->hasMany(Recipe::class, 'author', "name");
+        return $this->hasMany(Recipe::class, Recipe::AUTHOR_ID, self::ID);
+    }
+    public function useraccesstoken(): HasMany
+    {
+        return $this->hasMany(UserAccessToken::class, UserAccessToken::USER_ID, self::ID);
     }
 }
