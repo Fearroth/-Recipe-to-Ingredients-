@@ -29,8 +29,8 @@ class ProductRecipe extends Pivot
     ];
     public $timestamps = true;
     //RELATIONS
-    public const RELATION_RECIPE = 'recipe';
-    public const RELATION_PRODUCT = 'product';
+    public const RELATION_RECIPES = 'recipes';
+    public const RELATION_PRODUCTS = 'products';
     public function recipes()
     {
         return $this->belongsToMany(Recipe::class);

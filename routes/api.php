@@ -46,7 +46,6 @@ Route::middleware([Auth::class])->group(function () {
         Route::post('/', [UserApiController::class, 'store']);
         Route::get('/{model}', [UserApiController::class, 'show']);
         Route::put('/{model}', [UserApiController::class, 'update'])->middleware(AuthorizationUser::class);
-        ;
         Route::delete('/{model}', [UserApiController::class, 'destroy'])->middleware(AuthorizationUser::class);
         ;
     });
@@ -54,4 +53,10 @@ Route::middleware([Auth::class])->group(function () {
 
 Route::prefix('/user-access-tokens')->group(function () {
     Route::post('/', [UserAccessTokenApiController::class, 'login']);
+});
+
+//front without autorization aka public
+Route::prefix('/front')->group(function () {
+    Route::get('/recipes', [RecipeApiController::class, 'index']);
+    Route::post('/users', [UserApiController::class, 'store']);
 });
