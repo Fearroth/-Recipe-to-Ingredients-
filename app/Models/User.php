@@ -22,6 +22,7 @@ class User extends Authenticatable
     public const NAME = 'name';
     public const EMAIL = 'email';
     public const PASSWORD = 'password';
+    public const IS_ADMIN = 'is_admin';
 
 
     protected $guarded = [
@@ -29,6 +30,7 @@ class User extends Authenticatable
         self::CREATED_AT,
         self::UPDATED_AT,
         self::DELETED_AT,
+        self::IS_ADMIN,
 
     ];
 

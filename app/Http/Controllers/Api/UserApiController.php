@@ -41,7 +41,7 @@ class UserApiController extends Controller
     {
         $user = User::create([
             User::NAME => $request->name,
-            User::EMAIL => $request->user,
+            User::EMAIL => $request->email,
             User::PASSWORD => Hash::make($request->password)
         ]);
 
@@ -56,7 +56,7 @@ class UserApiController extends Controller
     {
         $model->update([
             User::NAME => $request->name,
-            User::EMAIL => $request->user,
+            User::EMAIL => $request->email,
             User::PASSWORD => Hash::make($request->password),
         ]);
 

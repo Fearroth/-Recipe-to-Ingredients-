@@ -49,7 +49,7 @@ class UserAccessTokenApiController extends Controller
         $userAccessToken = UserAccessToken::create([
             UserAccessToken::USER_ID => $user->{User::ID},
             UserAccessToken::TOKEN => Hash::make($token),
-            UserAccessToken::VALID_TO => Carbon::now()->addHours(72),
+            UserAccessToken::VALID_TO => Carbon::now()->addHours(7200),
         ]);
 
         return response()->json([

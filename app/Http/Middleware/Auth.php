@@ -27,6 +27,9 @@ class Auth
         if (!$userAccessToken) {
             abort(401);
         }
+        $request->setUserResolver(function () use ($userAccessToken) {
+            return $userAccessToken->user;
+        });
 
         return $next($request);
     }

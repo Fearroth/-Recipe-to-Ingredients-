@@ -55,6 +55,7 @@ class RecipeStoreRequest extends FormRequest
             ],
             Recipe::AUTHOR_ID => [
                 'required',
+                'string',
                 // 'uuid', ??!! name changed but its still string...
                 Rule::exists(User::TABLE, User::ID),
             ],
