@@ -48,7 +48,6 @@ class UserUpdateRequest extends FormRequest
             ],
             User::EMAIL => [
                 'required',
-                'string',
                 'email',
                 'max:255',
                 Rule::unique(User::TABLE)->ignore($this->route('model')->{User::ID})
