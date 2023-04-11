@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use App\Models\UserAccessToken;
 
 use Illuminate\Http\Request;
@@ -19,7 +20,9 @@ class UserAccessTokenResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'token' => $this->{UserAccessToken::TOKEN}
+            'token' => $this->{UserAccessToken::TOKEN},
+            'userId' => $this->{UserAccessToken::RELATION_USER}->{User::ID},
+            'userIsAdmin' => $this->{UserAccessToken::RELATION_USER}->{User::IS_ADMIN},
         ];
     }
 }
