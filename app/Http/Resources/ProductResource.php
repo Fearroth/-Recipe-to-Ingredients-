@@ -22,7 +22,7 @@ class ProductResource extends JsonResource
             'name' => $this->{Product::NAME},
             'products' => [
                 'quantity' => $this->pivot->{ProductRecipe::QUANTITY},
-                'unit' => $this->pivot->{ProductRecipe::QUANTITY},
+                'unit' => $this->pivot->{ProductRecipe::UNIT},
             ],
         ];
     }

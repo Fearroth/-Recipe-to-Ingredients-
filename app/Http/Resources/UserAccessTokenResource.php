@@ -22,7 +22,7 @@ class UserAccessTokenResource extends JsonResource
         return [
             'token' => $this->{UserAccessToken::TOKEN},
             'userId' => $this->{UserAccessToken::RELATION_USER}->{User::ID},
-            'userIsAdmin' => $this->{UserAccessToken::RELATION_USER}->{User::IS_ADMIN},
+            'isAdmin' => $this->{UserAccessToken::RELATION_USER}->{User::IS_ADMIN},
         ];
     }
 }
