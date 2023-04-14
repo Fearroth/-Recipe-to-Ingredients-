@@ -28,8 +28,8 @@ class WebScrapedUrl extends Model
 
     ];
     //Relations
-    public const RELATION_SCRAPED_RECIPE = 'scrapedRecipe';
-    public function scrapedRecipe(): hasOne
+    public const RELATION_SCRAPED_RECIPE = 'scraped_recipe';
+    public function scraped_recipe(): hasOne
     {
         return $this->hasOne(ScrapedRecipe::class, ScrapedRecipe::ID, self::ID, );
     }
