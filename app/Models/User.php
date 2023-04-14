@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\hasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'users';
     public const TABLE = 'users';
@@ -22,6 +22,7 @@ class User extends Authenticatable
     public const NAME = 'name';
     public const EMAIL = 'email';
     public const PASSWORD = 'password';
+    public const IS_ADMIN = 'is_admin';
 
 
     protected $guarded = [
@@ -29,6 +30,7 @@ class User extends Authenticatable
         self::CREATED_AT,
         self::UPDATED_AT,
         self::DELETED_AT,
+        self::IS_ADMIN,
 
     ];
 
@@ -40,8 +42,15 @@ class User extends Authenticatable
     /*
      * RELATIONS
      */
+    public const RELATION_RECIPE = 'recipe';
+    public const RELATION_USER_ACCESS_TOKEN = 'user_access_token';
     public function recipe(): HasMany
     {
-        return $this->hasMany(Recipe::class, 'author', "name");
+        return $this->hasMany(Recipe::class, Recipe::AUTHOR_ID, self::ID);
+    }
+
+    public function user_access_token(): HasMany
+    {
+        return $this->hasMany(UserAccessToken::class, UserAccessToken::USER_ID, self::ID);
     }
 }

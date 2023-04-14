@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,8 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('recipes', function (Blueprint $table) {
+        Schema::create('web_scraped_urls', function (Blueprint $table) {
             $table->softDeletes();
+            $table->id();
+            $table->string('url');
+            $table->boolean('is_scraped')->default(false);
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('recipes', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
+        Schema::dropIfExists('web_scraped_urls');
     }
 };
